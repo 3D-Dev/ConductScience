@@ -57,6 +57,32 @@ namespace Experience
         public float InactivTime => _InactivTime;
         public bool ChangeDataViewer => _ChangeDataViewer;
         public bool MapViewer => _MapViewer;
+
+        public void InitParam()
+        {
+            _AveragepathLength = 0;
+            _ClosestDistance = 0;
+            _ClosestTime = 0;
+            _AverageDiff = 0;
+            _ReachTime = 0;
+            _StartTime = 0;
+            _PathLength = 0;
+            _PathViewer = false;
+            _PercentageTime = 0;
+            _PercentageInactivTime = 0;
+            _PercentageTrialTime = 0;
+            _AntiClockNumPath = 0;
+            _ClockNumPath = 0;
+            _TotalTime = 0;
+            _InactivTime = 0;
+            _ChangeDataViewer = false;
+            _MapViewer = false;
+        }
+        public void OnExpertData()
+        {
+
+        }
+
     }
 }
 
