@@ -6,15 +6,17 @@ using System.IO;
 using System;
 using Experience;
 using UnityEngine.UI;
+
 namespace Experience
 {
     public class CsvWrite : MonoBehaviour
     {
+        ExperienceData experienceData = new ExperienceData();
         private List<string[]> rowData = new List<string[]>();
         // Start is called before the first frame update
         void Start()
         {
-
+            
         }
         public void Save()
         {
@@ -43,20 +45,20 @@ namespace Experience
                 rowDataTemp = new string[16];
                 rowDataTemp[0] = "" + i + 1;
                 rowDataTemp[1] = "Anna";
-                rowDataTemp[2] = "" + ExperienceData.;
-                rowDataTemp[3] = "";
-                rowDataTemp[4] = "";
-                rowDataTemp[5] = "";
-                rowDataTemp[6] = "";
-                rowDataTemp[7] = "";
-                rowDataTemp[8] = "";
-                rowDataTemp[9] = "";
-                rowDataTemp[10] = "";
-                rowDataTemp[11] = "";
-                rowDataTemp[12] = "";
-                rowDataTemp[13] = "";
-                rowDataTemp[14] = "";
-                rowDataTemp[15] = "";
+                rowDataTemp[2] = "" + experienceData.AveragepathLength;
+                rowDataTemp[3] = "" + experienceData.ClosestDistance;
+                rowDataTemp[4] = "" + experienceData.ClosestTime;
+                rowDataTemp[5] = "" + experienceData.AverageDiff;
+                rowDataTemp[6] = "" + experienceData.ReachTime;
+                rowDataTemp[7] = "" + experienceData.StartTime;
+                rowDataTemp[8] = "" + experienceData.PathLength;
+                rowDataTemp[9] = "" + experienceData.PercentageTime;
+                rowDataTemp[10] = "" + experienceData.PercentageInactivTime;
+                rowDataTemp[11] = "" + experienceData.PercentageTrialTime;
+                rowDataTemp[12] = "" + experienceData.AntiClockNumPath;
+                rowDataTemp[13] = "" + experienceData.ClockNumPath;
+                rowDataTemp[14] = "" + experienceData.TotalTime;
+                rowDataTemp[15] = "" + experienceData.InactivTime;
                 rowData.Add(rowDataTemp);
             }
             string[][] output = new string[rowData.Count][];
