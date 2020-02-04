@@ -58,6 +58,18 @@ namespace Experience
         public bool ChangeDataViewer => _ChangeDataViewer;
         public bool MapViewer => _MapViewer;
 
+        private static ExperienceData instance;
+
+        public static ExperienceData Instance
+        {
+            get
+            {
+                if (instance == null)
+                    instance = GameObject.FindObjectOfType<ExperienceData>();
+
+                return instance;
+            }
+        }
         public void InitParam()
         {
             _AveragepathLength = 0;
@@ -78,9 +90,52 @@ namespace Experience
             _ChangeDataViewer = false;
             _MapViewer = false;
         }
+        public void SetAveragepathLength(float value)
+        {
+        }
+        public void SetClosestDistance(float value)
+        {
+        }
+        public void SetClosestTime(float value)
+        {
+        }
+        public void SetAverageDiff(float value)
+        {
+        }
+        public void SetReachTime(float value)
+        {
+        }
+        public void SetStartTime(float value)
+        {
+        }
+        public void SetPathLength(float value)
+        {
+        }
+        public void SetPercentageTime(float value)
+        {
+        }
+        public void SetPercentageInactivTime(float value)
+        {
+        }
+        public void SetPercentageTrialTime(float value)
+        {
+        }
+        public void SetAntiClockNumPath(float value)
+        {
+        }
+        public void SetClockNumPath(float value)
+        {
+        }
+        public void SetTotalTime(float value)
+        {
+        }
+        public void SetInactivTime(float value)
+        {
+        }
         public void OnExpertData()
         {
-            CsvWrite.
+            CsvWrite CSVData = new CsvWrite();
+            CSVData.Save();
         }
 
     }
