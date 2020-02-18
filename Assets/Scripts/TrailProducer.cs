@@ -20,6 +20,7 @@ public class TrailProducer : MonoBehaviour
     public GameObject TrailHolder;
     public GameObject trailObject;
     public GameObject RestartButton;
+    public GameObject ExportButton;
     public List<GameObject> trailObjectsList = new List<GameObject>();
     // Start is called before the first frame update
     void Start()
@@ -44,6 +45,7 @@ public class TrailProducer : MonoBehaviour
             a.parent = temp.transform;
         }
         RestartButton.gameObject.SetActive(true);
+        ExportButton.gameObject.SetActive(true);
         canmove = false;
     }
 
