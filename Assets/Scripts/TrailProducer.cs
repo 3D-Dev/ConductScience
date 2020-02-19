@@ -52,6 +52,7 @@ public class TrailProducer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (canmove == true && ExportButton.gameObject.activeSelf== true)
+            ExportButton.gameObject.SetActive(false);
     }
 }
