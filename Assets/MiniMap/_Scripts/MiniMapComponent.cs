@@ -28,7 +28,7 @@ public class MiniMapComponent : MonoBehaviour {
 	[Tooltip("If true the icons will be clamped in the border")]
 	public bool clampIconInBorder = true;
 	[Tooltip("Set the distance from target after which the icon will not be shown. Setting it 0 will always show the icon.")]
-	public float clampDistance = 100;
+	public float clampDistance = 0;
 
 	MiniMapController miniMapController;
 	MiniMapEntity mme;

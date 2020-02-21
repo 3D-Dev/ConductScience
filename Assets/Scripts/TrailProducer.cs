@@ -30,7 +30,7 @@ public class TrailProducer : MonoBehaviour
     IEnumerator ObjectsGenerate()
     {
         GameObject temp = Instantiate(trailObject, transform.position, Quaternion.identity) as GameObject;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.07f);
         trailObjectsList.Add(temp);
         temp.transform.parent = TrailHolder.transform;
         StartCoroutine(ObjectsGenerate());

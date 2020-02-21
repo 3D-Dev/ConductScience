@@ -40,7 +40,7 @@ public class MiniMapController : MonoBehaviour {
 
 	//Render camera related variables
 	[Tooltip("Camera offset from the target")]
-	public Vector3 cameraOffset = new Vector3(0f, 7.5f, 0f);
+	public Vector3 cameraOffset = new Vector3(0f, 1.5f, 0f);
 	[Tooltip("Camera's orthographic size")]
 	public float camSize = 15;
 	[Tooltip("Camera's far clip")]
