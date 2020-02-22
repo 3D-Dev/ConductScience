@@ -6,7 +6,10 @@ namespace Experience
     public class ExperienceData : MonoBehaviour
     {
         [SerializeField, Tooltip("Average path length in each quadrant: The average length of the path traversed within each quadrant.")]
-        private float _AveragepathLength = 0;
+        private float _AveragepathLength1 = 0;
+        private float _AveragepathLength2 = 0;
+        private float _AveragepathLength3 = 0;
+        private float _AveragepathLength4 = 0;
         [SerializeField, Tooltip("Close encounter with the target (Distance): Closest distance to the target")]
         private float _ClosestDistance = 0;
         [SerializeField, Tooltip("Close encounter with the target (Time): Time spent near the target.")]
@@ -40,7 +43,10 @@ namespace Experience
         [SerializeField, Tooltip("the only visualization is the map, all other data is raw form that can be exported to .csv.")]
         private bool _MapViewer = false;
 
-        public float AveragepathLength => _AveragepathLength;
+        public float AveragepathLength1 => _AveragepathLength1;
+        public float AveragepathLength2 => _AveragepathLength2;
+        public float AveragepathLength3 => _AveragepathLength3;
+        public float AveragepathLength4 => _AveragepathLength4;
         public float ClosestDistance => _ClosestDistance;
         public float ClosestTime => _ClosestTime;
         public float AverageDiff => _AverageDiff;
@@ -72,7 +78,10 @@ namespace Experience
         }
         public void InitParam()
         {
-            _AveragepathLength = 0;
+            _AveragepathLength1 = 0;
+            _AveragepathLength2 = 0;
+            _AveragepathLength3 = 0;
+            _AveragepathLength4 = 0;
             _ClosestDistance = 0;
             _ClosestTime = 0;
             _AverageDiff = 0;
