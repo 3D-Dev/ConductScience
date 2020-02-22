@@ -1,18 +1,39 @@
-ID,Name,AveragepathLength,ClosestDistance,ClosestTime,AverageDiff,ReachTime ,StartTime ,PathLength,PercentageTime,PercentageInactivTime,PercentageTrialTime,AntiClockNumPath,ClockNumPath,TotalTime,InactivTime
-1,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-3,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-4,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-5,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-6,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-7,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-8,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-9,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-10,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-11,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-12,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-13,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-14,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-15,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-16,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+ID,Name,AveragepathLength1,AveragepathLength2,AveragepathLength3,AveragepathLength4,ClosestDistance,ClosestTime,AverageDiff,ReachTime ,StartTime ,PathLength,PercentageTime,PercentageInactivTime,PercentageTrialTime,AntiClockNumPath,ClockNumPath,TotalTime,InactivTime
+1,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+3,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+4,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+5,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+6,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+7,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+8,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+9,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+10,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+11,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+12,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+13,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+14,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+15,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+16,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+17,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+18,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+ID,Name,AveragepathLength1,AveragepathLength2,AveragepathLength3,AveragepathLength4,ClosestDistance,ClosestTime,AverageDiff,ReachTime ,StartTime ,PathLength,PercentageTime,PercentageInactivTime,PercentageTrialTime,AntiClockNumPath,ClockNumPath,TotalTime,InactivTime
+1,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+3,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+4,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+5,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+6,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+7,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+8,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+9,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+10,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+11,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+12,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+13,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+14,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+15,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+16,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+17,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+18,Anna,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 
