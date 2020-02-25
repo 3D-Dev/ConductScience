@@ -20,9 +20,26 @@ public class Player : MonoBehaviour
     {
         //transform.Translate (Vector3.forward * moveSpeed*Input.GetAxis("Vertical")*Time.deltaTime);
         //transform.Rotate (Vector3.up * rotationSpeed*Input.GetAxis("Horizontal")*Time.deltaTime);
-
-        //transform.position = new Vector3(Walker.transform.position.x, 0, Walker.transform.position.z);
-        transform.position = new Vector3(VRCarmera.transform.position.x, 0, VRCarmera.transform.position.z);
+        if(Walker == null)//VR
+            transform.position = new Vector3(VRCarmera.transform.position.x, 0, VRCarmera.transform.position.z);
+        else
+            transform.position = new Vector3(Walker.transform.position.x, 0, Walker.transform.position.z);
+        //transform.position = new Vector3(VRCarmera.transform.position.x, 0, VRCarmera.transform.position.z);// for VR
         transform.eulerAngles = new Vector3(0, Target.transform.eulerAngles.y, Target.transform.eulerAngles.z);
+        
+    }
+    void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.name == "Sphere")
+        {
+            Debug.Log("Hit Sphere");
+        }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.name == "Sphere")
+        {
+            Debug.Log("Hit Sphere");
+        }
     }
 }
