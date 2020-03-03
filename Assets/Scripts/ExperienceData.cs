@@ -105,6 +105,7 @@ namespace Experience
         }
         public void SetClosestDistance(float value)
         {
+            _ClosestDistance = value;
         }
         public void SetClosestTime(float value)
         {

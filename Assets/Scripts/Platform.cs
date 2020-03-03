@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Experience;
 
 public class Platform : MonoBehaviour
 {
@@ -24,6 +25,7 @@ public class Platform : MonoBehaviour
             trailenabled = true;
             GetComponent<MiniMapComponent>().enabled = true;
             TrailProducer.Instance.Enabletrail();
+            ExperienceData.Instance.SetClosestDistance(Distance);
         }
     }
 }
