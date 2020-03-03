@@ -109,6 +109,7 @@ namespace Experience
         }
         public void SetClosestTime(float value)
         {
+            _ClosestTime = value;
         }
         public void SetAverageDiff(float value)
         {

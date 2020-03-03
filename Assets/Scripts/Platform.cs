@@ -5,13 +5,18 @@ using Experience;
 
 public class Platform : MonoBehaviour
 {
+    float ClosestDis, NearDis;
     bool trailenabled;
     public GameObject Player;
     public float Distance;
     public MeshRenderer Graphics;
+    private float ClosestTime;
     // Start is called before the first frame update
     void Start()
     {
+        ClosestDis = 40;
+        NearDis = 185;
+        ClosestTime = 0;
         Player = GameObject.FindWithTag("Player");
     }
 
@@ -19,13 +24,19 @@ public class Platform : MonoBehaviour
     void Update()
     {
         Distance = Vector3.Distance(transform.position, Player.transform.position);
-        if (Distance < 50 && !trailenabled)
+        if (Distance < NearDis && !trailenabled)
         {
-            Graphics.enabled = true;
-            trailenabled = true;
-            GetComponent<MiniMapComponent>().enabled = true;
-            TrailProducer.Instance.Enabletrail();
-            ExperienceData.Instance.SetClosestDistance(Distance);
+            ClosestTime += Time.deltaTime;
+            if(Distance < ClosestDis)
+            {
+                Graphics.enabled = true;
+                trailenabled = true;
+                GetComponent<MiniMapComponent>().enabled = true;
+                TrailProducer.Instance.Enabletrail();
+                ExperienceData.Instance.SetClosestDistance(Distance);
+                ExperienceData.Instance.SetClosestTime(ClosestTime);
+                ClosestTime = 0;
+            }
         }
     }
 }
