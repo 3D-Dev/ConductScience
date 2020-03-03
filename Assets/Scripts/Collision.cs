@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Collision : MonoBehaviour
 {
+    public GameObject Walker;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,9 +16,17 @@ public class Collision : MonoBehaviour
     {
         
     }
+    private void OnTriggerStay(Collider other)
+    {
+       // Debug.Log(other.name + "has Stay!");
+    }
     private void OnTriggerExit(Collider other)
     {
         Debug.Log(other.name + "has Exit!");
+        if(TrailProducer.Instance.canmove) { 
+            TrailProducer.Instance.collisionflag = true;
+            TrailProducer.Instance.rotation = Walker.transform.rotation;
+        }
     }
     private void OnCollisionEnter(UnityEngine.Collision collision)
     {

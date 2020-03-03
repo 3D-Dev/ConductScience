@@ -17,6 +17,9 @@ public class TrailProducer : MonoBehaviour
     }
 
     public bool canmove;
+    public bool collisionflag;
+    public Quaternion rotation;
+    //public bool 
     public GameObject TrailHolder;
     public GameObject trailObject;
     public GameObject RestartButton;

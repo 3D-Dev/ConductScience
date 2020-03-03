@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
     //public float rotationSpeed = 30f;
     public GameObject Target;
     public GameObject Walker;
-    public GameObject VRCarmera;
+    public GameObject VRCamera;
     // Use this for initialization
     void Start()
     {
@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
         //transform.Translate (Vector3.forward * moveSpeed*Input.GetAxis("Vertical")*Time.deltaTime);
         //transform.Rotate (Vector3.up * rotationSpeed*Input.GetAxis("Horizontal")*Time.deltaTime);
         if(Walker == null)//VR
-            transform.position = new Vector3(VRCarmera.transform.position.x, 0, VRCarmera.transform.position.z);
+            transform.position = new Vector3(VRCamera.transform.position.x, 0, VRCamera.transform.position.z);
         else
             transform.position = new Vector3(Walker.transform.position.x, 0, Walker.transform.position.z);
         //transform.position = new Vector3(VRCarmera.transform.position.x, 0, VRCarmera.transform.position.z);// for VR

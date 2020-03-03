@@ -101,6 +101,7 @@ namespace Experience
         }
         public void SetAveragepathLength(float value)
         {
+            _AveragepathLength1 = value;
         }
         public void SetClosestDistance(float value)
         {
