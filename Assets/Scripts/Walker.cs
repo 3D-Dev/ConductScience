@@ -7,6 +7,8 @@ public class Walker : MonoBehaviour
 {
     private Vector3 PastPostion;
     private Vector3 CurPostion;
+    private Vector3 OrgPostion;
+    float StartTime;
     private float AverageLength;
     // Start is called before the first frame update
     void Start()
@@ -14,11 +16,13 @@ public class Walker : MonoBehaviour
         AverageLength = 0;
         PastPostion = new Vector3(0, 0, 0);
         CurPostion = new Vector3(0, 0, 0);
+        OrgPostion = new Vector3(0, 0, 0);
     }
 
     // Update is called once per frame
     void Update()
     {
+        StartTime += Time.deltaTime;
         transform.Rotate(0, Input.GetAxisRaw("Mouse X") * 2, 0, Space.Self);
 
         if (TrailProducer.Instance.collisionflag) { 
@@ -33,8 +37,14 @@ public class Walker : MonoBehaviour
             PastPostion.Set(transform.position.x, transform.position.y, transform.position.z);
             transform.Translate(Input.GetAxis("Horizontal") * Time.smoothDeltaTime * 25, 0, Input.GetAxis("Vertical") * Time.smoothDeltaTime * 25, Space.Self);
             CurPostion.Set(transform.position.x, transform.position.y, transform.position.z);
-            if (PastPostion != CurPostion)
+            if (PastPostion != CurPostion) {
+                if(PastPostion == OrgPostion)
+                {
+                    ExperienceData.Instance.SetStartTime(StartTime);
+                    StartTime = 0;
+                }
                 GetAveragelengh(PastPostion, CurPostion);
+            }
         }
     }
     private void OnTriggerExit(Collider other)
@@ -59,7 +69,8 @@ public class Walker : MonoBehaviour
     {
         float sum = Vector3.Distance(vect1, vect2);
         AverageLength += sum;
-        ExperienceData.Instance.SetAveragepathLength(AverageLength);
+        //if(ExperienceData.Instance.isActive)
+        ExperienceData.Instance.AverageLength = AverageLength;
         
     }
 }

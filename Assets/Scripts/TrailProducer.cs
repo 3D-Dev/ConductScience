@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Experience;
 
 public class TrailProducer : MonoBehaviour
 {
@@ -49,6 +50,7 @@ public class TrailProducer : MonoBehaviour
         }
         RestartButton.gameObject.SetActive(true);
         ExportButton.gameObject.SetActive(true);
+        ExperienceData.Instance.isActive = true;
         canmove = false;
     }
 

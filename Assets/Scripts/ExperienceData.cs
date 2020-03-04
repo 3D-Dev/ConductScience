@@ -63,6 +63,11 @@ namespace Experience
         public float InactivTime => _InactivTime;
         public bool ChangeDataViewer => _ChangeDataViewer;
         public bool MapViewer => _MapViewer;
+        private Vector3 EachQuad;
+        //private int CircleSize_x, CircleSize_y, CircleSize_z;
+        public bool isActive;
+        public float CircleSize;
+        public float AverageLength;
 
         private static ExperienceData instance;
 
@@ -98,10 +103,48 @@ namespace Experience
             _InactivTime = 0;
             _ChangeDataViewer = false;
             _MapViewer = false;
+            EachQuad = new Vector3(0, 0, 0);
+            //CircleSize_x = CircleSize_y = CircleSize_z = 300;
+            isActive = false;
         }
-        public void SetAveragepathLength(float value)
+        public void SetEachQuad(Vector3 Sum)
         {
-            _AveragepathLength1 = value;
+            EachQuad = Sum;
+        }
+        private int GetEachQuad()
+        {
+            if (((0 > EachQuad.x) && (EachQuad.x > -CircleSize)) && ((0 < EachQuad.z) && (EachQuad.z < CircleSize)))
+                return 1;
+            else if (((0 < EachQuad.x) && (EachQuad.x < CircleSize)) && ((0 < EachQuad.z) && (EachQuad.z < CircleSize)))
+                return 2;
+            else if (((0 > EachQuad.x) && (EachQuad.x > -CircleSize)) && ((0 > EachQuad.z) && (EachQuad.z > -CircleSize)))
+                return 3;
+            else if (((0 < EachQuad.x) && (EachQuad.x < CircleSize)) && ((0 > EachQuad.z) && (EachQuad.z > -CircleSize)))
+                return 4;
+            return 0;
+        }
+        public void OnClickGetAveragepathLength()
+        {
+            if (!isActive)
+                return;
+            switch (GetEachQuad())
+            {
+                case 0:
+                    break;
+                case 1:
+                    _AveragepathLength1 = AverageLength;
+                    break;
+                case 2:
+                    _AveragepathLength2 = AverageLength;
+                    break;
+                case 3:
+                    _AveragepathLength3 = AverageLength;
+                    break;
+                case 4:
+                    _AveragepathLength4 = AverageLength;
+                    break;
+            }
+            
         }
         public void SetClosestDistance(float value)
         {
@@ -116,9 +159,11 @@ namespace Experience
         }
         public void SetReachTime(float value)
         {
+            _ReachTime = value;
         }
         public void SetStartTime(float value)
         {
+            _StartTime = value;
         }
         public void SetPathLength(float value)
         {
