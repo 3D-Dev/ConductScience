@@ -154,6 +154,10 @@ namespace Experience
         {
             _ClosestTime = value;
         }
+        public void SetPathViewer(bool bFlag)
+        {
+            _PathViewer = bFlag;
+        }
         public void SetAverageDiff(float value)
         {
         }
