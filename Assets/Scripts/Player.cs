@@ -28,6 +28,7 @@ public class Player : MonoBehaviour
         transform.eulerAngles = new Vector3(0, Target.transform.eulerAngles.y, Target.transform.eulerAngles.z);
         
     }
+    /*
     void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.name == "Sphere")
@@ -42,4 +43,5 @@ public class Player : MonoBehaviour
             Debug.Log("Hit Sphere");
         }
     }
+    */
 }

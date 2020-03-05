@@ -40,7 +40,7 @@ public class Platform : MonoBehaviour
                     ExperienceData.Instance.SetClosestTime(ClosestTime);
                     ExperienceData.Instance.SetReachTime(ReachTime);
                     ExperienceData.Instance.SetPathViewer(true);
-                    ExperienceData.Instance.SetFinalData();
+                    //ExperienceData.Instance.SetFinalData();
                     ClosestTime = 0;
                     ReachTime = 0;
                 }

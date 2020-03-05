@@ -9,6 +9,7 @@ public class Walker : MonoBehaviour
     private Vector3 CurPostion;
     private Vector3 OrgPostion;
     float StartTime, inActiveTime;
+    float PercentageTime1, PercentageTime2, PercentageTime3, PercentageTime4;
     private float AverageLength;
     // Start is called before the first frame update
     void Start()
@@ -19,6 +20,7 @@ public class Walker : MonoBehaviour
         OrgPostion = new Vector3(0, 0, 0);
         StartTime = 0;
         inActiveTime = 0;
+        PercentageTime1 = PercentageTime2 = PercentageTime3 = PercentageTime4 = 0;
     }
 
     // Update is called once per frame
@@ -39,7 +41,7 @@ public class Walker : MonoBehaviour
             PastPostion.Set(transform.position.x, transform.position.y, transform.position.z);
             transform.Translate(Input.GetAxis("Horizontal") * Time.smoothDeltaTime * 25, 0, Input.GetAxis("Vertical") * Time.smoothDeltaTime * 25, Space.Self);
             CurPostion.Set(transform.position.x, transform.position.y, transform.position.z);
-            if (PastPostion != CurPostion)
+            if (PastPostion != CurPostion)//move
             {
                 if (PastPostion == OrgPostion)
                 {
@@ -52,13 +54,47 @@ public class Walker : MonoBehaviour
                 inActiveTime += Time.deltaTime;
                 ExperienceData.Instance.SetInactivTime(inActiveTime);
             }
-
+            GetPercentageTime(CurPostion);
         }
     }
     private void OnTriggerExit(Collider other)
     {
         Debug.Log(other.name + "has Waler_Exit!");
     }
+    private void GetAveragelengh(Vector3 vect1, Vector3 vect2)
+    {
+        float sum = Vector3.Distance(vect1, vect2);
+        AverageLength += sum;
+        //if(ExperienceData.Instance.isActive)
+        ExperienceData.Instance.AverageLength = AverageLength;
+    }
+    private void GetPercentageTime(Vector3 pos)
+    {
+        switch(ExperienceData.Instance.GetEachQuad(pos))
+        {
+            case 1: 
+                PercentageTime1 += Time.deltaTime;
+                ExperienceData.Instance.SetPercentageTime(PercentageTime1, 1);
+                break;
+            case 2:
+                PercentageTime2 += Time.deltaTime;
+                ExperienceData.Instance.SetPercentageTime(PercentageTime2, 2);
+                break;
+            case 3:
+                PercentageTime3 += Time.deltaTime;
+                ExperienceData.Instance.SetPercentageTime(PercentageTime3, 3);
+                break;
+            case 4:
+                PercentageTime4 += Time.deltaTime;
+                ExperienceData.Instance.SetPercentageTime(PercentageTime4, 4);
+                break;
+            default:
+                break;
+        }
+    }
+
+
+
     /*
     private void OnCollisionEnter(UnityEngine.Collision collision)
     {
@@ -73,12 +109,4 @@ public class Walker : MonoBehaviour
         Debug.Log(other.name + "has Waler_Exit!");
     }
     */
-    private void GetAveragelengh(Vector3 vect1, Vector3 vect2)
-    {
-        float sum = Vector3.Distance(vect1, vect2);
-        AverageLength += sum;
-        //if(ExperienceData.Instance.isActive)
-        ExperienceData.Instance.AverageLength = AverageLength;
-        
-    }
 }

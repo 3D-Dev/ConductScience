@@ -20,7 +20,7 @@ namespace Experience
         }
         public void Save()
         {
-            string[] rowDataTemp = new string[19];
+            string[] rowDataTemp = new string[22];
             rowDataTemp[0] = "ID";
             rowDataTemp[1] = "Name";
             rowDataTemp[2] = "AveragepathLength1";
@@ -33,19 +33,22 @@ namespace Experience
             rowDataTemp[9] = "ReachTime ";
             rowDataTemp[10] = "StartTime ";
             rowDataTemp[11] = "PathLength";
-            rowDataTemp[12] = "PercentageTime";
-            rowDataTemp[13] = "PercentageInactivTime";
-            rowDataTemp[14] = "PercentageTrialTime";
-            rowDataTemp[15] = "AntiClockNumPath";
-            rowDataTemp[16] = "ClockNumPath";
-            rowDataTemp[17] = "TotalTime";
-            rowDataTemp[18] = "InactivTime";
+            rowDataTemp[12] = "PercentageTime1";
+            rowDataTemp[13] = "PercentageTime2";
+            rowDataTemp[14] = "PercentageTime3";
+            rowDataTemp[15] = "PercentageTime4";
+            rowDataTemp[16] = "PercentageInactivTime";
+            rowDataTemp[17] = "PercentageTrialTime";
+            rowDataTemp[18] = "AntiClockNumPath";
+            rowDataTemp[19] = "ClockNumPath";
+            rowDataTemp[20] = "TotalTime";
+            rowDataTemp[21] = "InactivTime";
 
             rowData.Add(rowDataTemp);
 
-            for (int i = 1; i <= 18; i++)
+            for (int i = 1; i <= 22; i++)
             {
-                rowDataTemp = new string[19];
+                rowDataTemp = new string[22];
                 rowDataTemp[0] = "" + i;
                 rowDataTemp[1] = "Anna";
                 rowDataTemp[2] = "" +  ExperienceData.Instance.AveragepathLength1;//experienceData.AveragepathLength;
@@ -58,13 +61,16 @@ namespace Experience
                 rowDataTemp[9] = "" + ExperienceData.Instance.ReachTime;//experienceData.ReachTime;
                 rowDataTemp[10] = "" + ExperienceData.Instance.StartTime;//experienceData.StartTime;
                 rowDataTemp[11] = "" + ExperienceData.Instance.PathLength;//experienceData.PathLength;
-                rowDataTemp[12] = "" + ExperienceData.Instance.PercentageTime;//experienceData.PercentageTime;
-                rowDataTemp[13] = "" + ExperienceData.Instance.PercentageInactivTime;//experienceData.PercentageInactivTime;
-                rowDataTemp[14] = "" + ExperienceData.Instance.PercentageTrialTime;//experienceData.PercentageTrialTime;
-                rowDataTemp[15] = "" + ExperienceData.Instance.AntiClockNumPath;//experienceData.AntiClockNumPath;
-                rowDataTemp[16] = "" + ExperienceData.Instance.ClockNumPath;//experienceData.ClockNumPath;
-                rowDataTemp[17] = "" + ExperienceData.Instance.TotalTime;//experienceData.TotalTime;
-                rowDataTemp[18] = "" + ExperienceData.Instance.InactivTime;//experienceData.InactivTime;
+                rowDataTemp[12] = "" + ExperienceData.Instance.PercentageTime1 + "%";//experienceData.PercentageTime;
+                rowDataTemp[13] = "" + ExperienceData.Instance.PercentageTime2 + "%";
+                rowDataTemp[14] = "" + ExperienceData.Instance.PercentageTime3 + "%";
+                rowDataTemp[15] = "" + ExperienceData.Instance.PercentageTime4 + "%";
+                rowDataTemp[16] = "" + ExperienceData.Instance.PercentageInactivTime + "%";//experienceData.PercentageInactivTime;
+                rowDataTemp[17] = "" + ExperienceData.Instance.PercentageTrialTime + "%";//experienceData.PercentageTrialTime;
+                rowDataTemp[18] = "" + ExperienceData.Instance.AntiClockNumPath;//experienceData.AntiClockNumPath;
+                rowDataTemp[19] = "" + ExperienceData.Instance.ClockNumPath;//experienceData.ClockNumPath;
+                rowDataTemp[20] = "" + ExperienceData.Instance.TotalTime;//experienceData.TotalTime;
+                rowDataTemp[21] = "" + ExperienceData.Instance.InactivTime;//experienceData.InactivTime;
                 rowData.Add(rowDataTemp);
             }
             string[][] output = new string[rowData.Count][];

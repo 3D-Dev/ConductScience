@@ -5,10 +5,13 @@ namespace Experience
 {
     public class ExperienceData : MonoBehaviour
     {
-        [SerializeField, Tooltip("Average path length in each quadrant: The average length of the path traversed within each quadrant.")]
+        [SerializeField, Tooltip("Average path length in each quadrant: The average length of the path traversed within 1st quadrant.")]
         private float _AveragepathLength1 = 0;
+        [SerializeField, Tooltip("Average path length in each quadrant: The average length of the path traversed within 2 quadrant.")]
         private float _AveragepathLength2 = 0;
+        [SerializeField, Tooltip("Average path length in each quadrant: The average length of the path traversed within 3 quadrant.")]
         private float _AveragepathLength3 = 0;
+        [SerializeField, Tooltip("Average path length in each quadrant: The average length of the path traversed within 4 quadrant.")]
         private float _AveragepathLength4 = 0;
         [SerializeField, Tooltip("Close encounter with the target (Distance): Closest distance to the target")]
         private float _ClosestDistance = 0;
@@ -24,8 +27,14 @@ namespace Experience
         private float _PathLength = 0;
         [SerializeField, Tooltip("Path traversed: The visualization of the path traversed by the participant during the task.")]
         private bool _PathViewer = false;
-        [SerializeField, Tooltip("Percentage time in each quadrant: The percentage time spent in each of the four quadrants.")]
-        private float _PercentageTime = 0;
+        [SerializeField, Tooltip("Percentage time in each quadrant: The percentage time spent in each of the 1st quadrant.")]
+        private float _PercentageTime1 = 0;
+        [SerializeField, Tooltip("Percentage time in each quadrant: The percentage time spent in each of the 2 quadrant.")]
+        private float _PercentageTime2 = 0;
+        [SerializeField, Tooltip("Percentage time in each quadrant: The percentage time spent in each of the 3 quadrant.")]
+        private float _PercentageTime3 = 0;
+        [SerializeField, Tooltip("Percentage time in each quadrant: The percentage time spent in each of the 4 quadrant.")]
+        private float _PercentageTime4 = 0;
         [SerializeField, Tooltip("Percentage time of inactivity: Percentage time spent without any exploration.")]
         private float _PercentageInactivTime = 0;
         [SerializeField, Tooltip("Percentage time spent in target quadrant: The time spent in the target quadrant during a trial.")]
@@ -54,7 +63,10 @@ namespace Experience
         public float StartTime => _StartTime;
         public float PathLength => _PathLength;
         public bool PathViewer => _PathViewer;
-        public float PercentageTime => _PercentageTime;
+        public float PercentageTime1 => _PercentageTime1;
+        public float PercentageTime2 => _PercentageTime2;
+        public float PercentageTime3 => _PercentageTime3;
+        public float PercentageTime4 => _PercentageTime4;
         public float PercentageInactivTime => _PercentageInactivTime;
         public float PercentageTrialTime => _PercentageTrialTime;
         public float AntiClockNumPath => _AntiClockNumPath;
@@ -94,7 +106,10 @@ namespace Experience
             _StartTime = 0;
             _PathLength = 0;
             _PathViewer = false;
-            _PercentageTime = 0;
+            _PercentageTime1 = 0;
+            _PercentageTime2 = 0;
+            _PercentageTime3 = 0;
+            _PercentageTime4 = 0;
             _PercentageInactivTime = 0;
             _PercentageTrialTime = 0;
             _AntiClockNumPath = 0;
@@ -111,15 +126,15 @@ namespace Experience
         {
             EachQuad = Sum;
         }
-        private int GetEachQuad()
+        public int GetEachQuad(Vector3 pos)
         {
-            if (((0 > EachQuad.x) && (EachQuad.x > -CircleSize)) && ((0 < EachQuad.z) && (EachQuad.z < CircleSize)))
+            if (((0 > pos.x) && (pos.x > -CircleSize)) && ((0 < pos.z) && (pos.z < CircleSize)))
                 return 1;
-            else if (((0 < EachQuad.x) && (EachQuad.x < CircleSize)) && ((0 < EachQuad.z) && (EachQuad.z < CircleSize)))
+            else if (((0 < pos.x) && (pos.x < CircleSize)) && ((0 < pos.z) && (pos.z < CircleSize)))
                 return 2;
-            else if (((0 > EachQuad.x) && (EachQuad.x > -CircleSize)) && ((0 > EachQuad.z) && (EachQuad.z > -CircleSize)))
+            else if (((0 > pos.x) && (pos.x > -CircleSize)) && ((0 > pos.z) && (pos.z > -CircleSize)))
                 return 3;
-            else if (((0 < EachQuad.x) && (EachQuad.x < CircleSize)) && ((0 > EachQuad.z) && (EachQuad.z > -CircleSize)))
+            else if (((0 < pos.x) && (pos.x < CircleSize)) && ((0 > pos.z) && (pos.z > -CircleSize)))
                 return 4;
             return 0;
         }
@@ -127,27 +142,39 @@ namespace Experience
         {
             if (!isActive)
                 return;
-            switch (GetEachQuad())
+            float divnum = _PercentageTime1 + _PercentageTime2 + _PercentageTime3 + _PercentageTime4;
+            //--------------------------------------
+            _PercentageTime1 = (_PercentageTime1 / divnum) * 100;
+            _PercentageTime2 = (_PercentageTime2 / divnum) * 100;
+            _PercentageTime3 = (_PercentageTime3 / divnum) * 100;
+            _PercentageTime4 = (_PercentageTime4 / divnum) * 100;
+            //--------------------------------------
+            switch (GetEachQuad(EachQuad))
             {
                 case 0:
                     break;
                 case 1:
                     _AveragepathLength1 = AverageLength;
+                    SetPercentageTrialTime(_PercentageTime1);
                     break;
                 case 2:
                     _AveragepathLength2 = AverageLength;
+                    SetPercentageTrialTime(_PercentageTime2);
                     break;
                 case 3:
                     _AveragepathLength3 = AverageLength;
+                    SetPercentageTrialTime(_PercentageTime3);
                     break;
                 case 4:
                     _AveragepathLength4 = AverageLength;
+                    SetPercentageTrialTime(_PercentageTime4);
                     break;
             }
             SetPathLength(AverageLength);
             SetPercentageInactivTime(_InactivTime);
             SetTotalTime(_ReachTime);
             _MapViewer = isActive;
+
         }
         public void SetClosestDistance(float value)
         {
@@ -176,15 +203,35 @@ namespace Experience
         {
             _PathLength = value / (Mathf.Pow(CircleSize, 2) * Mathf.PI);
         }
-        public void SetPercentageTime(float value)
+        public void SetPercentageTime(float value, int i)//update call
         {
+            switch(i)
+            {
+                case 1:
+                    _PercentageTime1 = value;
+                    break;
+                case 2:
+                    _PercentageTime2 = value;
+                    break;
+                case 3:
+                    _PercentageTime3 = value;
+                    break;
+                case 4:
+                    _PercentageTime4 = value;
+                    break;
+                default:
+                    break;
+            }
         }
         private void SetPercentageInactivTime(float value)
         {
-            _PercentageInactivTime = value / 100;
+            if (_ReachTime == 0)
+                return;
+            _PercentageInactivTime = value / _ReachTime * 100;
         }
         public void SetPercentageTrialTime(float value)
         {
+            _PercentageTrialTime = value;
         }
         public void SetAntiClockNumPath(float value)
         {

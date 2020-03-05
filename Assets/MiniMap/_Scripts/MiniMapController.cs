@@ -138,7 +138,8 @@ public class MiniMapController : MonoBehaviour {
 	void SetupRenderTexture(){
 		//Release the old texture, otherwise memory leak happens
 		//This line shows as error log in Unity versions < 5.4, which is a Unity bug. But harmless.
-		if(renderTex.IsCreated()) renderTex.Release ();
+		if(renderTex.IsCreated())
+            renderTex.Release();
 		//Setup render texture and resize it.
 		//New render texture was created, as premade render texture's size can't be changed
 		renderTex = new RenderTexture ((int)mapPanelRect.sizeDelta.x, (int)mapPanelRect.sizeDelta.y, 24);

@@ -51,6 +51,7 @@ public class TrailProducer : MonoBehaviour
         RestartButton.gameObject.SetActive(true);
         ExportButton.gameObject.SetActive(true);
         ExperienceData.Instance.isActive = true;
+        //ExperienceData.Instance.SetFinalData();
         canmove = false;
     }
 
