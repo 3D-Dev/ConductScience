@@ -8,7 +8,7 @@ public class Walker : MonoBehaviour
     private Vector3 PastPostion;
     private Vector3 CurPostion;
     private Vector3 OrgPostion;
-    float StartTime;
+    float StartTime, inActiveTime;
     private float AverageLength;
     // Start is called before the first frame update
     void Start()
@@ -17,6 +17,8 @@ public class Walker : MonoBehaviour
         PastPostion = new Vector3(0, 0, 0);
         CurPostion = new Vector3(0, 0, 0);
         OrgPostion = new Vector3(0, 0, 0);
+        StartTime = 0;
+        inActiveTime = 0;
     }
 
     // Update is called once per frame
@@ -37,14 +39,20 @@ public class Walker : MonoBehaviour
             PastPostion.Set(transform.position.x, transform.position.y, transform.position.z);
             transform.Translate(Input.GetAxis("Horizontal") * Time.smoothDeltaTime * 25, 0, Input.GetAxis("Vertical") * Time.smoothDeltaTime * 25, Space.Self);
             CurPostion.Set(transform.position.x, transform.position.y, transform.position.z);
-            if (PastPostion != CurPostion) {
-                if(PastPostion == OrgPostion)
+            if (PastPostion != CurPostion)
+            {
+                if (PastPostion == OrgPostion)
                 {
                     ExperienceData.Instance.SetStartTime(StartTime);
                     StartTime = 0;
                 }
                 GetAveragelengh(PastPostion, CurPostion);
             }
+            else if (PastPostion == CurPostion) { 
+                inActiveTime += Time.deltaTime;
+                ExperienceData.Instance.SetInactivTime(inActiveTime);
+            }
+
         }
     }
     private void OnTriggerExit(Collider other)

@@ -123,7 +123,7 @@ namespace Experience
                 return 4;
             return 0;
         }
-        public void OnClickGetAveragepathLength()
+        public void SetFinalData()
         {
             if (!isActive)
                 return;
@@ -144,7 +144,10 @@ namespace Experience
                     _AveragepathLength4 = AverageLength;
                     break;
             }
-            
+            SetPathLength(AverageLength);
+            SetPercentageInactivTime(_InactivTime);
+            SetTotalTime(_ReachTime);
+            _MapViewer = isActive;
         }
         public void SetClosestDistance(float value)
         {
@@ -169,14 +172,16 @@ namespace Experience
         {
             _StartTime = value;
         }
-        public void SetPathLength(float value)
+        private void SetPathLength(float value)
         {
+            _PathLength = value / (Mathf.Pow(CircleSize, 2) * Mathf.PI);
         }
         public void SetPercentageTime(float value)
         {
         }
-        public void SetPercentageInactivTime(float value)
+        private void SetPercentageInactivTime(float value)
         {
+            _PercentageInactivTime = value / 100;
         }
         public void SetPercentageTrialTime(float value)
         {
@@ -187,11 +192,13 @@ namespace Experience
         public void SetClockNumPath(float value)
         {
         }
-        public void SetTotalTime(float value)
+        private void SetTotalTime(float value)
         {
+            _TotalTime = value;
         }
         public void SetInactivTime(float value)
         {
+            _InactivTime = value;
         }
         public void OnExpertData()
         {
