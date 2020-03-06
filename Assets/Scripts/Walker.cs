@@ -10,11 +10,14 @@ public class Walker : MonoBehaviour
     private Vector3 OrgPostion;
     float StartTime, inActiveTime;
     float PercentageTime1, PercentageTime2, PercentageTime3, PercentageTime4;
-    private float AverageLength;
+    private float AverageLength1;
+    private float AverageLength2;
+    private float AverageLength3;
+    private float AverageLength4;
     // Start is called before the first frame update
     void Start()
     {
-        AverageLength = 0;
+        AverageLength1 = AverageLength2 = AverageLength3 = AverageLength4 = 0;
         PastPostion = new Vector3(0, 0, 0);
         CurPostion = new Vector3(0, 0, 0);
         OrgPostion = new Vector3(0, 0, 0);
@@ -39,7 +42,7 @@ public class Walker : MonoBehaviour
         if (TrailProducer.Instance.canmove && TrailProducer.Instance.collisionflag == false)
         {
             PastPostion.Set(transform.position.x, transform.position.y, transform.position.z);
-            transform.Translate(Input.GetAxis("Horizontal") * Time.smoothDeltaTime * 25, 0, Input.GetAxis("Vertical") * Time.smoothDeltaTime * 25, Space.Self);
+            transform.Translate(Input.GetAxis("Horizontal") * Time.smoothDeltaTime * 50, 0, Input.GetAxis("Vertical") * Time.smoothDeltaTime * 50, Space.Self);
             CurPostion.Set(transform.position.x, transform.position.y, transform.position.z);
             if (PastPostion != CurPostion)//move
             {
@@ -64,9 +67,28 @@ public class Walker : MonoBehaviour
     private void GetAveragelengh(Vector3 vect1, Vector3 vect2)
     {
         float sum = Vector3.Distance(vect1, vect2);
-        AverageLength += sum;
-        //if(ExperienceData.Instance.isActive)
-        ExperienceData.Instance.AverageLength = AverageLength;
+        switch (ExperienceData.Instance.GetEachQuad(vect1))
+        {
+            case 1:
+                AverageLength1 += sum;
+                ExperienceData.Instance.AverageLength1 = AverageLength1;
+                break;
+            case 2:
+                AverageLength2 += sum;
+                ExperienceData.Instance.AverageLength2 = AverageLength2;
+                break;
+            case 3:
+                AverageLength3 += sum;
+                ExperienceData.Instance.AverageLength3 = AverageLength3;
+                break;
+            case 4:
+                AverageLength4 += sum;
+                ExperienceData.Instance.AverageLength4 = AverageLength4;
+                break;
+            default:
+                break;
+
+        }
     }
     private void GetPercentageTime(Vector3 pos)
     {

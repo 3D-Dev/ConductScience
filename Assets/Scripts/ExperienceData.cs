@@ -79,7 +79,10 @@ namespace Experience
         //private int CircleSize_x, CircleSize_y, CircleSize_z;
         public bool isActive;
         public float CircleSize;
-        public float AverageLength;
+        public float AverageLength1;
+        public float AverageLength2;
+        public float AverageLength3;
+        public float AverageLength4;
 
         private static ExperienceData instance;
 
@@ -154,23 +157,23 @@ namespace Experience
                 case 0:
                     break;
                 case 1:
-                    _AveragepathLength1 = AverageLength;
                     SetPercentageTrialTime(_PercentageTime1);
                     break;
                 case 2:
-                    _AveragepathLength2 = AverageLength;
                     SetPercentageTrialTime(_PercentageTime2);
                     break;
                 case 3:
-                    _AveragepathLength3 = AverageLength;
                     SetPercentageTrialTime(_PercentageTime3);
                     break;
                 case 4:
-                    _AveragepathLength4 = AverageLength;
                     SetPercentageTrialTime(_PercentageTime4);
                     break;
             }
-            SetPathLength(AverageLength);
+            _AveragepathLength1 = AverageLength1;
+            _AveragepathLength2 = AverageLength2;
+            _AveragepathLength3 = AverageLength3;
+            _AveragepathLength4 = AverageLength4;
+            SetPathLength(AverageLength1 + AverageLength2 + AverageLength3 + AverageLength4);
             SetPercentageInactivTime(_InactivTime);
             SetTotalTime(_ReachTime);
             _MapViewer = isActive;
@@ -190,6 +193,7 @@ namespace Experience
         }
         public void SetAverageDiff(float value)
         {
+            _AverageDiff = value;
         }
         public void SetReachTime(float value)
         {
@@ -235,9 +239,11 @@ namespace Experience
         }
         public void SetAntiClockNumPath(float value)
         {
+            _AntiClockNumPath = value;
         }
         public void SetClockNumPath(float value)
         {
+            _ClockNumPath = value;
         }
         private void SetTotalTime(float value)
         {
