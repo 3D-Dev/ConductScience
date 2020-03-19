@@ -4894,6 +4894,8 @@ MonoBehaviour:
   loginPanel: {fileID: 1328569377}
   loginPanelEmail: {fileID: 2052242028}
   loginPanelPassword: {fileID: 1280580668}
+  errorParent: {fileID: 11545506}
+  errorText: {fileID: 1930550658}
 --- !u!4 &1294245289
 Transform:
   m_ObjectHideFlags: 0
