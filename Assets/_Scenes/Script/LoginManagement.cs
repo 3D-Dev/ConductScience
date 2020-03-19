@@ -17,6 +17,9 @@ public class LoginManagement : MonoBehaviour
     public Text errorText;
     //public Text loginPanelErrorText;
 
+    private string databaseURL = "https://test1-be462.firebaseio.com/user/Users";
+    private string AuthKey = "AIzaSyA79Y96XJYFzEhO_yxligbpqsZKi6-qyaY";
+
     // Start is called before the first frame update
     void Start()
     {
@@ -44,6 +47,14 @@ public class LoginManagement : MonoBehaviour
             errorText.text = "Password is invalid.";
             //loginPanelErrorText.text = "Password is invalid.";
         }
+        else
+        {
+            LoginRequest(loginPanelEmail.text, loginPanelPassword.text);
+        }
+
+    }
+    public void LoginRequest(string email, string password)
+    {
 
     }
     public void OnValueChange()
