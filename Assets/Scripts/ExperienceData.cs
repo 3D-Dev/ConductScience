@@ -169,7 +169,7 @@ namespace Experience
                     SetPercentageTrialTime(_PercentageTime4);
                     break;
             }
-            _AveragepathLength1 = AverageLength1;
+            _AveragepathLength1 = AverageLength1; 
             _AveragepathLength2 = AverageLength2;
             _AveragepathLength3 = AverageLength3;
             _AveragepathLength4 = AverageLength4;
