@@ -8,4 +8,13 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/Login.unity
+    guid: bbe62d386de72734a84ecefe65b6db2b
+  - enabled: 1
+    path: Assets/Scenes/Train.unity
+    guid: 015c61e3ed1fb1f4384b5b478e49eb6b
+  - enabled: 1
+    path: Assets/Scenes/VR.unity
+    guid: f2c2dc8fa7bfe084092402388674618e
   m_configObjects: {}

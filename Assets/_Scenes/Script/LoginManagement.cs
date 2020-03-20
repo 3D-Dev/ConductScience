@@ -19,6 +19,9 @@ public class LoginManagement : MonoBehaviour
     [Header("Error")]
     public GameObject errorParent;
     public Text errorText;
+    [Header("Message")]
+    public GameObject messagePanel;
+    public Text messageText;
     //public Text loginPanelErrorText;
 
     private string databaseURL = "https://test1-be462.firebaseio.com/user/Users";
@@ -26,9 +29,13 @@ public class LoginManagement : MonoBehaviour
 
     private string PlayerName;
     private string PlayerPassword;
+    private bool UserFlag;
+    private bool PasswordFlag;
     // Start is called before the first frame update
     void Start()
     {
+        UserFlag = false;
+        PasswordFlag = false;
         
     }
 
@@ -56,41 +63,51 @@ public class LoginManagement : MonoBehaviour
         else
         {
             LoginRequest(loginPanelEmail.text, loginPanelPassword.text);
+            Debug.Log("username:" + loginPanelEmail.text);
         }
 
     }
     public void LoginRequest(string email, string password)
     {
+        errorParent.SetActive(false);
         string requestUrl = databaseURL + "/" + email + ".json" /* ?auth=" + idToken */;
 
          RestClient.Get<LoginUser>(requestUrl).Then(response =>
          {
-             
+             UserFlag = true;
              //PlayerName = response.userid;
              PlayerPassword = response.password;
              Debug.Log("password:" + PlayerPassword);
 
              if (PlayerPassword == loginPanelPassword.text)
              {
-                Debug.Log("next scene:");
-                Scene nextScene;
-                nextScene = SceneManager.GetSceneByName("Train");
-                Debug.Log("next scene1:");     
-                SceneManager.LoadScene("Train");
-                Debug.Log("next scene2:");
-                SceneManager.SetActiveScene(nextScene);
-                Debug.Log("next scene:" + "Train" + nextScene.isLoaded);
-                     
-                //SceneChange sceneChange = new SceneChange();
-                //sceneChange.ChangeScene("Train");
-                     
-                
+                 PasswordFlag = true;
+                 Scene nextScene;
+                 nextScene = SceneManager.GetSceneByName("Train");
+                 SceneManager.LoadScene("Train");
+                 SceneManager.SetActiveScene(nextScene);
+                 Debug.Log("next scene:" + "Train" + nextScene.isLoaded);
              }
          });
+        Debug.Log("Userfalg:" + UserFlag);
+        OnMessagePanel();
     }
-    private void GetUserdata()
+    public void OnMessagePanel()
     {
+        
+        string email = loginPanelEmail.text;
+        string password = loginPanelPassword.text;
+        Debug.Log("email:" + loginPanelEmail.text + "password:" + loginPanelPassword.text + "userFlag:" + UserFlag + "passwordflag:" + PasswordFlag);
+        if (!UserFlag)
+            messageText.text = "This user can't be found! Please check your email.";
+        else if(!PasswordFlag)
+            messageText.text = "Incorrect password. Try again";
+        messagePanel.SetActive(true);
+    }
 
+    public void OnMessagePanelClose()
+    {
+        messagePanel.SetActive(false);
     }
     public void OnValueChange()
     {
