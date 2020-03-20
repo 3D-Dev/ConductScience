@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
+using UnityEngine.Networking;
+using Proyecto26;
+using UnityEngine.SceneManagement;
 
 public class LoginManagement : MonoBehaviour
 {
@@ -20,6 +24,8 @@ public class LoginManagement : MonoBehaviour
     private string databaseURL = "https://test1-be462.firebaseio.com/user/Users";
     private string AuthKey = "AIzaSyA79Y96XJYFzEhO_yxligbpqsZKi6-qyaY";
 
+    private string PlayerName;
+    private string PlayerPassword;
     // Start is called before the first frame update
     void Start()
     {
@@ -54,6 +60,35 @@ public class LoginManagement : MonoBehaviour
 
     }
     public void LoginRequest(string email, string password)
+    {
+        string requestUrl = databaseURL + "/" + email + ".json" /* ?auth=" + idToken */;
+
+         RestClient.Get<LoginUser>(requestUrl).Then(response =>
+         {
+             
+             //PlayerName = response.userid;
+             PlayerPassword = response.password;
+             Debug.Log("password:" + PlayerPassword);
+
+             if (PlayerPassword == loginPanelPassword.text)
+             {
+                Debug.Log("next scene:");
+                Scene nextScene;
+                nextScene = SceneManager.GetSceneByName("Train");
+                Debug.Log("next scene1:");     
+                SceneManager.LoadScene("Train");
+                Debug.Log("next scene2:");
+                SceneManager.SetActiveScene(nextScene);
+                Debug.Log("next scene:" + "Train" + nextScene.isLoaded);
+                     
+                //SceneChange sceneChange = new SceneChange();
+                //sceneChange.ChangeScene("Train");
+                     
+                
+             }
+         });
+    }
+    private void GetUserdata()
     {
 
     }
