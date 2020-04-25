@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Experience;
+using Firebase;
+using Firebase.Extensions;
+using Firebase.Storage;
+using Firebase.Database;
+using Firebase.Unity.Editor;
+using System;
 
 public class Platform : MonoBehaviour
 {
@@ -14,11 +20,16 @@ public class Platform : MonoBehaviour
     float sumAngle;
     Vector3 fromVect, toVect;
     int num, clockwise_num, anti_clockwise_num;
+    
+    private DependencyStatus dependencyStatus = DependencyStatus.UnavailableOther;
+    protected FirebaseStorage storage;
+    protected bool isFirebaseInitialized = false;
+
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
-        ClosestDis = 40;
-        NearDis = 45;
+        ClosestDis = 400;
+        NearDis = 450;
         ClosestTime = 0;
         ReachTime = 0;
         fromVect = new Vector3(0, 0, 0);
@@ -28,6 +39,33 @@ public class Platform : MonoBehaviour
         anti_clockwise_num = 0;
         sumAngle = 0;
         Player = GameObject.FindWithTag("Player");
+
+        FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task => {
+            dependencyStatus = task.Result;
+            if (dependencyStatus == DependencyStatus.Available)
+            {
+                InitializeFirebase();
+            }
+            else
+            {
+                Debug.LogError(
+                  "Could not resolve all Firebase dependencies: " + dependencyStatus);
+            }
+        });
+    }
+
+    protected virtual void InitializeFirebase()
+    {
+        FirebaseApp app = FirebaseApp.DefaultInstance;
+        app.SetEditorDatabaseUrl("https://conduct-6968d.firebaseio.com/");
+
+        storage = FirebaseStorage.DefaultInstance;
+        var appBucket = FirebaseApp.DefaultInstance.Options.StorageBucket;
+        if (!String.IsNullOrEmpty(appBucket))
+        {
+            //MyStorageBucket = String.Format("gs://{0}/", appBucket);
+        }
+        isFirebaseInitialized = true;
     }
 
     // Update is called once per frame
@@ -46,7 +84,11 @@ public class Platform : MonoBehaviour
                 {
                     Graphics.enabled = true;
                     trailenabled = true;
+
                     GetComponent<MiniMapComponent>().enabled = true;
+                    if (isFirebaseInitialized)
+                        GetComponent<MiniMapComponent>().miniMapController.takeScreenShot();
+
                     TrailProducer.Instance.Enabletrail();
                     ExperienceData.Instance.SetClosestDistance(Distance);
                     ExperienceData.Instance.SetClosestTime(ClosestTime);

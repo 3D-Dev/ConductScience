@@ -7,6 +7,10 @@ using System;
 using Experience;
 using UnityEngine.UI;
 
+using Firebase;
+using Firebase.Database;
+using Firebase.Extensions;
+
 namespace Experience
 {
     public class CsvWrite : MonoBehaviour
@@ -87,13 +91,76 @@ namespace Experience
                 sb.AppendLine(string.Join(delimiter, output[index]));
             }
 
-            string filePath = GetPath();
+            DatabaseReference reference = FirebaseDatabase.DefaultInstance.GetReference("Leaders");
 
-            StreamWriter outStream = System.IO.File.CreateText(filePath);
-            outStream.WriteLine(sb);
-            outStream.Close();
+            Debug.Log("Running Transaction...");
+            // Use a transaction to ensure that we do not encounter issues with
+            // simultaneous updates that otherwise might create more than MaxScores top scores.
+            reference.RunTransaction(AddScoreTransaction)
+              .ContinueWithOnMainThread(task => {
+                  if (task.Exception != null)
+                  {
+                      Debug.Log(task.Exception.ToString());
+                  }
+                  else if (task.IsCompleted)
+                  {
+                      Debug.Log("Transaction complete.");
+                  }
+              });
+
+            //string filePath = GetPath();
+
+            //StreamWriter outStream = System.IO.File.CreateText(filePath);
+            //outStream.WriteLine(sb);
+            //outStream.Close();
         }
-        
+
+        // A realtime database transaction receives MutableData which can be modified
+        // and returns a TransactionResult which is either TransactionResult.Success(data) with
+        // modified data or TransactionResult.Abort() which stops the transaction with no changes.
+        TransactionResult AddScoreTransaction(MutableData mutableData)
+        {
+            List<object> leaders = mutableData.Value as List<object>;
+
+            if (leaders == null)
+            {
+                leaders = new List<object>();
+            }
+            
+            // Now we add the new score as a new entry that contains the email address and score.
+            Dictionary<string, object> newScoreMap = new Dictionary<string, object>();
+
+            //newScoreMap["score"] = 252;
+            //newScoreMap["email"] = "sdgasg";
+
+            newScoreMap["pathLength_in_1stQuadrant"] = ExperienceData.Instance.AveragepathLength1;
+            newScoreMap["pathLength_in_secondQuadrant"] = ExperienceData.Instance.AveragepathLength2;
+            newScoreMap["pathLength_in_thirdQuadrant"] = ExperienceData.Instance.AveragepathLength3;
+            newScoreMap["pathLength_in_fourthQuadrant"] = ExperienceData.Instance.AveragepathLength4;
+            newScoreMap["ClosestDistance"] = ExperienceData.Instance.ClosestDistance;
+            newScoreMap["ClosestTime"] = ExperienceData.Instance.ClosestTime;
+            newScoreMap["AverageDirection"] = ExperienceData.Instance.AverageDiff;
+            newScoreMap["ReachTime"] = ExperienceData.Instance.ReachTime;
+            newScoreMap["StartTime"] = ExperienceData.Instance.StartTime;
+            newScoreMap["PathLength"] = ExperienceData.Instance.PathLength;
+            //newScoreMap["PercentageTime_in_1stQuadrant"] = ExperienceData.Instance.PercentageTime1;
+            //newScoreMap["PercentageTime_in_secondQuadrant"] = ExperienceData.Instance.PercentageTime2;
+            //newScoreMap["PercentageTime_in_thirdQuadrant"] = ExperienceData.Instance.PercentageTime3;
+            //newScoreMap["PercentageTime_in_fourthQuadrant"] = ExperienceData.Instance.PercentageTime4;
+            newScoreMap["PercentageInactiveTime"] = ExperienceData.Instance.PercentageInactivTime;
+            //newScoreMap["PercentageTrialTime"] = ExperienceData.Instance.PercentageTrialTime;
+            newScoreMap["AntiClockwise_directionNum"] = ExperienceData.Instance.AntiClockNumPath;
+            newScoreMap["Clockwise_directionNum"] = ExperienceData.Instance.ClockNumPath;
+            newScoreMap["TotalTime"] = ExperienceData.Instance.TotalTime;
+            newScoreMap["InactiveTime"] = ExperienceData.Instance.InactivTime;
+
+            leaders.Add(newScoreMap);
+
+            // You must set the Value to indicate data at that location has changed.
+            mutableData.Value = leaders;
+            return TransactionResult.Success(mutableData);
+        }
+
         private string GetPath()
         {
         #if UNITY_EDITOR

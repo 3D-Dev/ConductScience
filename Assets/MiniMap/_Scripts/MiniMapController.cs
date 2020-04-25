@@ -3,6 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using System.Reflection;
+using Firebase;
+using Firebase.Extensions;
+using Firebase.Storage;
+using Firebase.Database;
+using System;
+using System.Threading.Tasks;
+using System.IO;
+
 [ExecuteInEditMode]
 public class MiniMapController : MonoBehaviour {
 	//public bool isRadialMask = false;
@@ -66,6 +74,12 @@ public class MiniMapController : MonoBehaviour {
 	Vector2 res;
 	Image miniMapPanelImage;
 
+	private string storageBucket = "gs://conduct-6968d.appspot.com";
+	private string storageLocation;
+	protected string fileMetadataChangeString = "";
+
+	private int screenShotIndex = 0;
+
 	//Initialize everything here
 	public void OnEnable(){
 		ownerIconMap.Clear ();
@@ -89,6 +103,177 @@ public class MiniMapController : MonoBehaviour {
 		miniMapPanelImage.enabled = !showBackground;
 		SetupRenderTexture();
 	}
+
+	public void takeScreenShot()
+	{
+		try
+		{
+			Vector3[] cornerss;
+			cornerss = new Vector3[4];
+			mapPanelRect.GetWorldCorners(cornerss);
+
+			int resWidth = (int)(cornerss[2].x + cornerss[0].x);
+			int resHeight = (int)(cornerss[2].y + cornerss[0].y);
+
+			Texture2D screenShot = new Texture2D(resWidth, resHeight, TextureFormat.RGB24, false);
+			screenShot.ReadPixels(new Rect(0, 0, cornerss[0].x + cornerss[2].x, cornerss[0].y + cornerss[2].y), 0, 0);
+			byte[] bytes = screenShot.EncodeToPNG();
+			string filename = string.Format("{0}/screen{1}.png", Application.temporaryCachePath, screenShotIndex);
+			screenShotIndex++;
+			System.IO.File.WriteAllBytes(filename, bytes);
+			Debug.Log(string.Format("Took screenshot to: {0}", filename));
+
+			StartCoroutine(uploadFromFile(filename));
+		}
+		catch
+		{
+
+		}
+	}
+
+	protected static string UriFileScheme = Uri.UriSchemeFile + "://";
+
+	protected virtual string PathToPersistentDataPathUriString(string filename)
+	{
+		if (filename.StartsWith(UriFileScheme))
+		{
+			return filename;
+		}
+		return String.Format("{0}{1}", UriFileScheme, filename);
+	}
+
+	protected StorageReference GetStorageReference()
+	{
+		storageLocation = string.Format("{0}/screen{1}.png", storageBucket, screenShotIndex);
+
+		// If this is an absolute path including a bucket create a storage instance.
+		if (storageLocation.StartsWith("gs://") ||
+			storageLocation.StartsWith("http://") ||
+			storageLocation.StartsWith("https://"))
+		{
+			var storageUri = new Uri(storageLocation);
+			var firebaseStorage = FirebaseStorage.GetInstance(
+			  String.Format("{0}://{1}", storageUri.Scheme, storageUri.Host));
+			return firebaseStorage.GetReferenceFromUrl(storageLocation);
+		}
+		// When using relative paths use the default storage instance which uses the bucket supplied
+		// on creation of FirebaseApp.
+		return FirebaseStorage.DefaultInstance.GetReference(storageLocation);
+	}
+
+	// Convert a string in the form:
+	//   key1=value1
+	//   ...
+	//   keyN=valueN
+	//
+	// to a MetadataChange object.
+	//
+	// If an empty string is provided this method returns null.
+	MetadataChange StringToMetadataChange(string metadataString)
+	{
+		var metadataChange = new MetadataChange();
+		var customMetadata = new Dictionary<string, string>();
+		bool hasMetadata = false;
+		foreach (var metadataStringLine in metadataString.Split(new char[] { '\n' }))
+		{
+			if (metadataStringLine.Trim() == "")
+				continue;
+			var keyValue = metadataStringLine.Split(new char[] { '=' });
+			if (keyValue.Length != 2)
+			{
+				Debug.Log(String.Format("Ignoring malformed metadata line '{0}' tokens={2}",
+									   metadataStringLine, keyValue.Length));
+				continue;
+			}
+			hasMetadata = true;
+			var key = keyValue[0];
+			var value = keyValue[1];
+			if (key == "CacheControl")
+			{
+				metadataChange.CacheControl = value;
+			}
+			else if (key == "ContentDisposition")
+			{
+				metadataChange.ContentDisposition = value;
+			}
+			else if (key == "ContentEncoding")
+			{
+				metadataChange.ContentEncoding = value;
+			}
+			else if (key == "ContentLanguage")
+			{
+				metadataChange.ContentLanguage = value;
+			}
+			else if (key == "ContentType")
+			{
+				metadataChange.ContentType = value;
+			}
+			else
+			{
+				customMetadata[key] = value;
+			}
+		}
+		if (customMetadata.Count > 0)
+			metadataChange.CustomMetadata = customMetadata;
+		return hasMetadata ? metadataChange : null;
+	}
+
+	protected bool operationInProgress;
+	//protected CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+
+	protected virtual void DisplayUploadState(UploadState uploadState)
+	{
+		if (operationInProgress)
+		{
+			Debug.Log(String.Format("Uploading {0}: {1} out of {2}", uploadState.Reference.Name,
+								   uploadState.BytesTransferred, uploadState.TotalByteCount));
+		}
+	}
+
+	class WaitForTaskCompletion : CustomYieldInstruction
+	{
+		Task task;
+		string file;
+
+		// Create an enumerator that waits for the specified task to complete.
+		public WaitForTaskCompletion(string file, Task task)
+		{
+			this.file = file;
+			this.task = task;
+		}
+
+		// Wait for the task to complete.
+		public override bool keepWaiting
+		{
+			get
+			{
+				if (task.IsCompleted)
+				{
+					if (task.IsFaulted)
+					{
+					}
+
+					//File.Delete(file);
+					Debug.Log("Task Finished");
+					return false;
+				}
+				return true;
+			}
+		}
+	}
+
+	IEnumerator uploadFromFile(string filename)
+	{
+		//var storage = FirebaseStorage.DefaultInstance;
+
+		var localFilenameUriString = PathToPersistentDataPathUriString(filename);
+		var storageReference = GetStorageReference();
+		var task = storageReference.PutFileAsync(localFilenameUriString);
+
+		yield return new WaitForTaskCompletion(filename, task);
+		//DisplayUploadComplete(task);
+	}
+
 	//Release the unmanaged objects
 	void OnDisable(){
 		if (renderTex != null) {
